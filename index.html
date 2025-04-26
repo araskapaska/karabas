@@ -40,7 +40,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>KARABAS</title>
-  <link rel="stylesheet" href="files/style.css?4">
+  <link rel="stylesheet" href="files/style.css">
   <style>
     /* Стили для модального окна */
     #city-modal {
@@ -88,6 +88,177 @@
     }
     #city-modal button:hover {
       background: #c53030;
+    }
+
+    /* Базовые стили для страницы */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      color: #f2f2f2;
+    }
+    .wrapper-def {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container-def {
+      width: 100%;
+    }
+    .top-menu {
+      background: #2d2d2d;
+      padding: 10px 0;
+    }
+    .top-menu__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .top-menu__logo {
+      color: #e53e3e;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .top-menu__btn {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .top-menu__btn {
+        display: block;
+      }
+      .top-menu__links {
+        display: none;
+      }
+    }
+    .mob-menu {
+      display: none;
+      background: #2d2d2d;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 40;
+    }
+    .mob-menu__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mob-menu__logo {
+      color: #e53e3e;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .mob-menu__btn {
+      cursor: pointer;
+    }
+    .sec-footer__content {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .sec-footer__text {
+      color: #f2f2f2;
+      font-size: 14px;
+      margin: 5px 0;
+      text-decoration: none;
+    }
+    .sec-footer__text a {
+      color: #e53e3e;
+      text-decoration: underline;
+    }
+    .sec-info {
+      margin: 40px 0;
+    }
+    .sec-info__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .sec-info__title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e53e3e;
+    }
+    .link-arr {
+      display: flex;
+      align-items: center;
+      color: #f2f2f2;
+      text-decoration: none;
+      cursor: default;
+    }
+    .link-arr__text {
+      margin-right: 10px;
+      font-size: 16px;
+    }
+    .sec-info__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .block-info {
+      background: #2d2d2d;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .block-info__title {
+      font-size: 20px;
+      font-weight: bold;
+      padding: 15px;
+      color: #f2f2f2;
+    }
+    .block-info__content {
+      display: flex;
+      flex-direction: column;
+    }
+    .block-info__img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .block-info__body {
+      padding: 15px;
+      text-align: center;
+    }
+    .old-info {
+      font-size: 14px;
+      color: #999;
+      margin: 10px 0;
+    }
+    .block-info__arr {
+      display: none;
+    }
+    .btn-def {
+      display: inline-block;
+      background: #e53e3e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: default;
+    }
+    .sec-footer {
+      background: #2d2d2d;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .sec-footer__text {
+      font-size: 14px;
+      color: #f2f2f2;
+      margin: 5px 0;
+    }
+    .sec-footer__text a {
+      color: #e53e3e;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -357,14 +528,14 @@
     </footer>
   </div>
 
-  <script src="files/main.js?1"></script>
+  <script src="files/main.js"></script>
   <script>
 
     const cityModal = document.getElementById('city-modal');
     const cityInput = document.getElementById('city-input');
     const citySubmit = document.getElementById('city-submit');
 
-
+ 
     const urlParams = new URLSearchParams(window.location.search);
     const cityParam = urlParams.get('c');
 
@@ -379,13 +550,13 @@
     citySubmit.addEventListener('click', () => {
       const city = cityInput.value.trim().toLowerCase();
       if (city) {
-
+  
         const newUrl = `${window.location.pathname}?c=${city}`;
         window.location.href = newUrl;
       }
     });
 
-
+    // Добавляем возможность отправки по нажатию Enter
     cityInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         citySubmit.click();
