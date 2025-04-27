@@ -535,7 +535,7 @@
     const cityInput = document.getElementById('city-input');
     const citySubmit = document.getElementById('city-submit');
 
- 
+  
     const urlParams = new URLSearchParams(window.location.search);
     const cityParam = urlParams.get('c');
 
@@ -543,20 +543,20 @@
 
       cityModal.style.display = 'flex';
     } else {
-
+   
       cityModal.style.display = 'none';
     }
 
     citySubmit.addEventListener('click', () => {
       const city = cityInput.value.trim().toLowerCase();
       if (city) {
-  
+
         const newUrl = `${window.location.pathname}?c=${city}`;
         window.location.href = newUrl;
       }
     });
 
-    // Добавляем возможность отправки по нажатию Enter
+
     cityInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         citySubmit.click();
