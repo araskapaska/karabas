@@ -1,38 +1,3 @@
-<script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-    }
-</script>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -40,202 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>KARABAS</title>
-  <link rel="stylesheet" href="files/style.css?4">
-  <style>
-    /* Стили для модального окна */
-    #city-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-    }
-    #city-modal .modal-content {
-      background: #2d2d2d;
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      text-align: center;
-    }
-    #city-modal h3 {
-      color: white;
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    #city-modal input {
-      padding: 0.5rem;
-      border-radius: 0.375rem;
-      background: #444;
-      color: white;
-      border: 1px solid #666;
-      outline: none;
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-    #city-modal input:focus {
-      border-color: #e53e3e;
-      box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.5);
-    }
-    #city-modal button {
-      background: #e53e3e;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
-      transition: background-color 0.3s;
-    }
-    #city-modal button:hover {
-      background: #c53030;
-    }
-
-    /* Стили для чата */
-    #chat-window {
-      transition: transform 0.3s ease;
-      transform: translateY(100%);
-      width: 90vw;
-      max-width: 360px;
-      border-radius: 1rem;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      background: white;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    }
-    #chat-window.open {
-      transform: translateY(0);
-    }
-    #chat-messages {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      scrollbar-width: thin;
-      scrollbar-color: #cbd5e0 transparent;
-      max-height: 60vh;
-      padding: 1rem;
-      box-sizing: border-box;
-      -webkit-overflow-scrolling: auto;
-    }
-    #chat-messages::-webkit-scrollbar {
-      width: 0.5rem;
-    }
-    #chat-messages::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    #chat-messages::-webkit-scrollbar-thumb {
-      background: #cbd5e0;
-      border-radius: 0.25rem;
-    }
-    #chat-messages::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    .chat-bubble {
-      max-width: 80%;
-      margin: 0.5rem 0.75rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      word-break: break-word;
-      box-sizing: border-box;
-      animation: slideIn 0.2s ease;
-      font-size: 0.95rem;
-    }
-    .user-message {
-      background: linear-gradient(to right, #3b82f6, #60a5fa);
-      color: white;
-      margin-left: auto;
-    }
-    .moderator-message {
-      background: #e5e7eb;
-      color: black;
-    }
-    .bot-message {
-      background: #fefcbf;
-      color: #854d0e;
-      text-align: center;
-      margin: 0.5rem auto;
-    }
-    .media {
-      max-width: 100%;
-      max-height: 12rem;
-      width: auto;
-      height: auto;
-      border-radius: 0.5rem;
-      object-fit: contain;
-      margin: 0.3rem 0;
-      display: block;
-    }
-    .input-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: nowrap;
-      box-sizing: border-box;
-      padding: 0 0.5rem;
-    }
-    .file-upload-btn {
-      cursor: pointer;
-      transition: transform 0.2s;
-      flex-shrink: 0;
-      padding: 0.5rem;
-      touch-action: manipulation;
-    }
-    .file-upload-btn:hover {
-      transform: scale(1.1);
-    }
-    @keyframes slideIn {
-      from { transform: translateY(0.5rem); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @media (max-width: 640px) {
-      #chat-window {
-        bottom: 0.5rem;
-        right: 0.5rem;
-        height: 85vh;
-        max-height: 600px;
-      }
-      #chat-messages {
-        max-height: 65vh;
-      }
-      .chat-bubble {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
-      }
-      .media {
-        max-height: 10rem;
-      }
-    }
-    @media (min-width: 641px) and (max-width: 1024px) {
-      #chat-window {
-        max-width: 400px;
-        height: 70vh;
-      }
-      #chat-messages {
-        max-height: 50vh;
-      }
-    }
-    @media (min-width: 1025px) {
-      #chat-window {
-        max-width: 420px;
-        height: 600px;
-      }
-      #chat-messages {
-        max-height: 450px;
-      }
-    }
-    @media (hover: none) {
-      #chat-messages::-webkit-scrollbar {
-        display: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/araskapaska/karabas/refs/heads/main/style.css">
 </head>
 <body>
   <!-- Модальное окно для ввода города -->
-  <div id="city-modal" style="display: none;">
-    <div class="modal-content">
-      <h3>Введите город</h3>
-      <input id="city-input" type="text" placeholder="Например, Москва">
+  <div id="city-modal">
+    <div id="city-modal-content">
+      <h2>Введите ваш город</h2>
+      <input type="text" id="city-input" placeholder="Например, Москва">
       <button id="city-submit">Подтвердить</button>
     </div>
   </div>
@@ -250,8 +27,7 @@
             </div>
             <div class="top-menu__right">
               <nav class="top-menu__links">
-                <ul class="links-def">
-                </ul>
+                <ul class="links-def"></ul>
               </nav>
               <svg class="top-menu__btn" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 9H0" stroke="#F2F2F2" stroke-width="2" />
@@ -273,19 +49,18 @@
               <path d="M14.9999 11.004L1.00003 0.996055" stroke="#F2F2F2" stroke-width="2" />
             </svg>
           </div>
-          <ul class="mob-menu__links">
-          </ul>
+          <ul class="mob-menu__links"></ul>
         </div>
       </div>
-      <div class="sec-footer__wrap">
-        <div class="sec-footer__content">
-          <div class="sec-footer__text sec-footer__text-1">© ООО "Городские Зрелищные Кассы", 2023</div>
-          <div class="sec-footer__text">Все права защищены.</div>
-          <div class="sec-footer__text">Для лиц старше 18 лет.</div>
-          <div class="sec-footer__bottom">
-            <a class="sec-footer__text" href="#">Пользовательское соглашение</a>
-            <a class="sec-footer__text" href="#">Политика конфиденциальности</a>
-            <a class="sec-footer__text" href="#">Возврат и условия</a>
+      <div class="mob-menu__footer sec-footer">
+        <div class="sec-footer__wrap">
+          <div class="sec-footer__content">
+            <div class="sec-footer__text sec-footer__text-1">© ООО "Городские Зрелищные Кассы", 2025</div>
+            <div class="sec-footer__text">Все права защищены.</div>
+            <div class="sec-footer__text">Для лиц старше 18 лет.</div>
+            <div class="sec-footer__bottom">
+              <a class="sec-footer__text" href="files/refund.pdf">Возврат и условия</a>
+            </div>
           </div>
         </div>
       </div>
@@ -312,7 +87,8 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">НОВИНКИ ТЕАТРА</h2>
-            <a class="link-arr" href="./theatre"> <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
+            <a class="link-arr" onclick="return false;">
+              <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
               </svg>
@@ -329,7 +105,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=59"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -342,7 +118,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=62"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <img class="block-info__img" src="files/20240530172148690.jpg" alt="">
               </div>
@@ -357,7 +133,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=58"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -370,7 +146,8 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">ОПЕРА И БАЛЕТ</h2>
-            <a class="link-arr" href="./opera"> <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
+            <a class="link-arr" onclick="return false;">
+              <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
               </svg>
@@ -387,7 +164,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=64"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -400,7 +177,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=71"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <img class="block-info__img" src="files/20240530181609305.jpg" alt="">
               </div>
@@ -415,7 +192,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=69"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -428,7 +205,8 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">ВЫСТАВКИ</h2>
-            <a class="link-arr" href="./exhibition"> <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
+            <a class="link-arr" onclick="return false;">
+              <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
               </svg>
@@ -445,7 +223,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=81"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -458,7 +236,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=82"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <img class="block-info__img" src="files/20240531130531732.jpg" alt="">
               </div>
@@ -473,7 +251,7 @@
                   <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                   </svg>
-                  <a class="btn-def block-info__btn" href="./buytickets?id=85"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -482,15 +260,14 @@
       </div>
     </section>
 
-    <footer class="sec-footer" style="margin-top: calc(100vh - 460px);">
+    <footer class="sec-footer">
       <div class="container-def">
         <div class="sec-footer__wrap">
           <div class="sec-footer__content">
             <div class="sec-footer__text sec-footer__text-1">© ООО "Городские Зрелищные Кассы", 2025<br>
-              Все права защищены.<br>
-              Для лиц старше 18 лет.</div>
+Все права защищены.<br>
+Для лиц старше 18 лет.</div>
             <div class="sec-footer__bottom">
-              <a class="sec-footer__text" href="files/user.pdf">Пользовательское соглашение</a>
               <a class="sec-footer__text" href="files/refund.pdf">Возврат и условия</a>
             </div>
           </div>
@@ -499,7 +276,7 @@
     </footer>
   </div>
 
-  <!-- Чат -->
+  <!-- HTML для чата -->
   <div id="chat-window" class="fixed bottom-5 right-5 flex-col hidden" role="dialog" aria-label="Чат техподдержки">
     <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-t-[1rem] flex justify-between items-center">
       <div class="flex items-center">
@@ -528,7 +305,7 @@
     </svg>
   </button>
 
-  <script src="files/main.js?1"></script>
+  <script src="files/main.js"></script>
   <script>
     function generateUUID() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
