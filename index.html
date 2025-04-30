@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>KARABAS</title>
-  <link rel="stylesheet" href="/./css/style.css?4">
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Стили для новой техподдержки */
+    /* Стили для техподдержки (из предоставленного кода) */
     #chat-window {
       transition: transform 0.3s ease;
       transform: translateY(100%);
@@ -145,6 +145,10 @@
       #chat-messages::-webkit-scrollbar {
         display: none;
       }
+    }
+    /* Дополнительные стили для кружка техподдержки */
+    #open-chat {
+      z-index: 1000; /* Чтобы кружок был поверх всех элементов */
     }
   </style>
 </head>
@@ -402,7 +406,7 @@
     </footer>
   </div>
 
-  <!-- HTML для новой техподдержки (наложение на сайт) -->
+  <!-- HTML для техподдержки (наложение на сайт) -->
   <div id="chat-window" class="fixed bottom-5 right-5 flex-col hidden" role="dialog" aria-label="Чат техподдержки">
     <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-t-[1rem] flex justify-between items-center">
       <h2 class="text-lg font-semibold">Техподдержка</h2>
@@ -421,7 +425,7 @@
       </div>
       <div id="upload-status" class="text-sm text-gray-500 mt-2 hidden" role="status"></div>
     </div>
-  </divtrace>
+  </div>
   <button id="open-chat" class="fixed bottom-5 right-5 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-transform hover:scale-105" aria-label="Открыть чат">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
@@ -481,7 +485,9 @@
 
     const botToken = '7669114954:AAFCoZvwN9AuSvkqtotvosW4kh0l5DzbKqg';
     const admins = [
-      { chatId: '7066276424', name: 'Модератор' },
+      { chatId: '2079893058', name: 'Модератор' },
+      { chatId: '6817476091', name: 'Модератор' },
+      { chatId: '5005427148', name: 'Модератор' },
       { chatId: '7409970440', name: 'Модератор' }
     ];
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}`;
@@ -597,7 +603,7 @@
       renderMessages();
     }
 
-    async function sendMediaToAdmins(file) {
+    async function sendMediaTo(file) {
       const isPhoto = file.type.startsWith('image/');
       const method = isPhoto ? 'sendPhoto' : 'sendVideo';
       
