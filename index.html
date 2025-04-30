@@ -7,8 +7,9 @@
   <title>KARABAS</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    /* Existing styles unchanged, updated for confirm-city */
+    /* Existing styles for disabled elements */
     .btn-def, .link-arr, .file-upload-btn, #open-chat, #close-chat, .sec-footer__text, .top-menu__btn, .mob-menu__btn {
       pointer-events: none;
       opacity: 0.6;
@@ -44,17 +45,6 @@
       margin: 1rem 0;
       border: 1px solid #ccc;
       border-radius: 0.5rem;
-    }
-    /* Adjust arrow positioning */
-    .block-info__arr, .block-info__arr-left {
-      margin-left: 2rem;
-      margin-right: 2rem;
-    }
-    @media (max-width: 640px) {
-      .block-info__arr, .block-info__arr-left {
-        margin-left: 1.2rem;
-        margin-right: 1.2rem;
-      }
     }
     /* Chat window styles unchanged */
     #chat-window {
@@ -197,6 +187,151 @@
     #open-chat {
       z-index: 1000;
     }
+    /* Ticket generation form styles */
+    .ticket-form {
+      background-color: rgba(44, 62, 80, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #ffffff;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      background-color: #34495e;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .form-group button {
+      width: 100%;
+      padding: 10px;
+      background-color: #e74c3c;
+      border: none;
+      color: #ffffff;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .form-group button:hover {
+      background-color: #c0392b;
+    }
+    /* Ticket styles for block-info */
+    .block-info {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .ticket-header h3 {
+      font-size: 24px;
+      color: #1a2526;
+      margin: 0;
+      font-weight: bold;
+    }
+    .ticket-header p {
+      font-size: 12px;
+      margin: 0;
+      color: #000;
+      text-align: right;
+      line-height: 1.4;
+    }
+    .ticket-image {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 4px;
+    }
+    .event-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1a2526;
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .event-date-time {
+      font-size: 16px;
+      color: #000;
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .qr-code-container {
+      text-align: center;
+      margin: 10px 0;
+    }
+    .qr-code {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+    }
+    .age-restriction {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #000;
+      border: 1px solid #000;
+      padding: 2px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    @media (max-width: 640px) {
+      .block-info {
+        padding: 15px;
+      }
+      .ticket-header h3 {
+        font-size: 18px;
+      }
+      .ticket-header p {
+        font-size: 10px;
+      }
+      .ticket-image {
+        height: 150px;
+      }
+      .event-name {
+        font-size: 18px;
+      }
+      .event-date-time {
+        font-size: 14px;
+      }
+      .qr-code {
+        width: 60px;
+        height: 60px;
+      }
+      .age-restriction {
+        font-size: 8px;
+        top: 5px;
+        right: 5px;
+        padding: 1px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -204,15 +339,85 @@
   <div id="city-modal">
     <div class="modal-content">
       <h2 class="text-xl font-semibold mb-4">Выберите город</h2>
-      <select id="city-select">
+      <select id="city-select" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         <option value="" disabled selected>Выберите город</option>
-        <!-- Cities populated by JavaScript -->
       </select>
-      <button id="confirm-city" disabled>Подтвердить</button>
+      <button id="confirm-city" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Подтвердить</button>
     </div>
   </div>
 
   <div class="wrapper-def">
+    <!-- Ticket Generation Form -->
+    <div class="ticket-form">
+      <div class="form-group">
+        <label>Тип мероприятия</label>
+        <select id="eventType" onchange="updateEventList()">
+          <option value="">Выберите тип</option>
+          <option value="opera">Опера</option>
+          <option value="theater">Театр</option>
+          <option value="ballet">Балет</option>
+          <option value="standup">Стендап</option>
+          <option value="exhibition">Выставка</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Название мероприятия</label>
+        <select id="eventName">
+          <option value="">Сначала выберите тип</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Дата</label>
+        <input type="date" id="date">
+      </div>
+      <div class="form-group">
+        <label>Время</label>
+        <input type="time" id="time">
+      </div>
+      <div class="form-group">
+        <label>ФИО</label>
+        <input type="text" id="fullName" placeholder="ФИО">
+      </div>
+      <div class="form-group">
+        <label>Ряд</label>
+        <select id="row">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Место</label>
+        <select id="seat">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Стоимость</label>
+        <input type="text" id="price" placeholder="Стоимость">
+      </div>
+      <div class="form-group">
+        <button onclick="generateLink()">Сгенерировать ссылку</button>
+      </div>
+      <div id="generatedLink" class="text-white text-center hidden"></div>
+    </div>
+
     <header class="top-menu">
       <div class="container-def">
         <div class="top-menu__wrap">
@@ -292,44 +497,47 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Раневская «Сквозь смех и слезы»</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240530170344837.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=59"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515021</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Самоубийца</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-theater-1"></div>
+              </div>
+              <p class="event-date-time">30 Апреля 2025, 19:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=59"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-right sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Старший сын</h3>
-              <div class="block-info__content">
-                <img class="block-info__img" src="/./Uploads/20240530172148690.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=62"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515022</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Тойбеле и ее демон</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-theater-2"></div>
+              </div>
+              <p class="event-date-time">5 Мая 2025, 18:30</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=62"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Анна Каренина</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240530165722715.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=58"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515023</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Красавица и Чудовище</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-theater-3"></div>
+              </div>
+              <p class="event-date-time">10 Мая 2025, 20:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=58"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
           </div>
         </div>
@@ -348,44 +556,47 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Князь Игорь</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240530173340807.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=64"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515024</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Игрок</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-opera-1"></div>
+              </div>
+              <p class="event-date-time">30 Апреля 2025, 19:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=64"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-right sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Спартак</h3>
-              <div class="block-info__content">
-                <img class="block-info__img" src="/./Uploads/20240530181609305.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=71"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515025</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Лебединое озеро</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-opera-2"></div>
+              </div>
+              <p class="event-date-time">5 Мая 2025, 18:30</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=71"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Золушка</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240530180935428.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=69"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515026</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Травиата</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-opera-3"></div>
+              </div>
+              <p class="event-date-time">10 Мая 2025, 20:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=69"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
           </div>
         </div>
@@ -404,44 +615,47 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Город-сад: мультивселенные</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240531130212608.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=81"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515027</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Театр балета Эйфмана. Только любовь</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-exhibition-1"></div>
+              </div>
+              <p class="event-date-time">30 Апреля 2025, 19:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=81"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-right sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Lila</h3>
-              <div class="block-info__content">
-                <img class="block-info__img" src="/./Uploads/20240531130531732.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=82"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515028</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Путь к совершенству</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-exhibition-2"></div>
+              </div>
+              <p class="event-date-time">5 Мая 2025, 18:30</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=82"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
-            <div class="block-info arr-left sec-info__content-el">
-              <h3 class="block-info__title title-def title-def_med">Между землей и небом</h3>
-              <div class="block-info__content">
-                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
-                <img class="block-info__img" src="/./Uploads/20240602112419843.jpg" alt="">
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" href="/./buytickets?id=85"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
+            <div class="block-info sec-info__content-el">
+              <div class="ticket-header">
+                <h3>KARABAS</h3>
+                <p>ЭЛЕКТРОННЫЙ БИЛЕТ<br>E-ticket #1745515029</p>
               </div>
+              <div class="age-restriction">18+</div>
+              <p class="event-name">Картинки с выставки</p>
+              <div class="qr-code-container">
+                <div class="qr-code" id="qr-exhibition-3"></div>
+              </div>
+              <p class="event-date-time">10 Мая 2025, 20:00</p>
+              <div class="ticket-image" style="background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop');"></div>
+              <a class="btn-def block-info__btn" href="/./buytickets?id=85"><span>КУПИТЬ БИЛЕТЫ</span></a>
             </div>
           </div>
         </div>
@@ -492,34 +706,34 @@
   <script type="text/javascript">
     // City selection logic
     const cities = [
-      'Абакан', 'Анапа', 'Ангарск', 'Армавир', 'Архангельск', 'Астрахань', 'Ачинск', 
-      'Балаково', 'Балашиха', 'Барнаул', 'Батайск', 'Белгород', 'Белореченск', 'Бердск', 
-      'Березники', 'Бийск', 'Благовещенск', 'Братск', 'Брянск', 'Бугульма', 'Бугуруслан', 
-      'Бузулук', 'Великий Новгород', 'Владивосток', 'Владикавказ', 'Владимир', 'Волгоград', 
-      'Волгодонск', 'Волжский', 'Вологда', 'Воронеж', 'Выборг', 'Глазов', 'Горно-Алтайск', 
-      'Грозный', 'Губкин', 'Дербент', 'Дзержинск', 'Димитровград', 'Долгопрудный', 'Домодедово', 
-      'Екатеринбург', 'Елабуга', 'Елец', 'Ессентуки', 'Железногорск', 'Жуковский', 'Зеленодольск', 
-      'Златоуст', 'Иваново', 'Ижевск', 'Иркутск', 'Ишим', 'Йошкар-Ола', 'Казань', 'Калининград', 
-      'Калуга', 'Каменск-Уральский', 'Каспийск', 'Кемерово', 'Керчь', 'Киров', 'Кисловодск', 
-      'Клин', 'Ковров', 'Коломна', 'Комсомольск-на-Амуре', 'Копейск', 'Кострома', 'Краснодар', 
-      'Красноярск', 'Курган', 'Курск', 'Кызыл', 'Липецк', 'Лобня', 'Лысьва', 'Магадан', 
-      'Магнитогорск', 'Майкоп', 'Махачкала', 'Междуреченск', 'Миасс', 'Минеральные Воды', 
-      'Москва', 'Мурманск', 'Муром', 'Мытищи', 'Набережные Челны', 'Назрань', 'Нальчик', 
-      'Наро-Фоминск', 'Находка', 'Невинномысск', 'Нерюнгри', 'Нефтекамск', 'Нефтеюганск', 
-      'Нижневартовск', 'Нижнекамск', 'Нижний Новгород', 'Нижний Тагил', 'Новокузнецк', 
-      'Новомосковск', 'Новороссийск', 'Новосибирск', 'Новотроицк', 'Новоуральск', 'Новочеркасск', 
-      'Новошахтинск', 'Новый Уренгой', 'Норильск', 'Обнинск', 'Одинцово', 'Омск', 'Орел', 
-      'Оренбург', 'Орск', 'Пенза', 'Первоуральск', 'Пермь', 'Петрозаводск', 'Петропавловск-Камчатский', 
-      'Подольск', 'Прокопьевск', 'Псков', 'Пятигорск', 'Раменское', 'Ревда', 'Реутов', 
-      'Ростов-на-Дону', 'Рубцовск', 'Рыбинск', 'Рязань', 'Салават', 'Самара', 'Санкт-Петербург', 
-      'Саранск', 'Сарапул', 'Саратов', 'Севастополь', 'Северодвинск', 'Серов', 'Серпухов', 
-      'Симферополь', 'Смоленск', 'Сочи', 'Ставрополь', 'Старый Оскол', 'Стерлитамак', 
-      'Сургут', 'Сызрань', 'Сыктывкар', 'Таганрог', 'Тамбов', 'Тверь', 'Тобольск', 
-      'Тольятти', 'Томск', 'Тула', 'Тюмень', 'Улан-Уде', 'Ульяновск', 'Уссурийск', 
-      'Уфа', 'Хабаровск', 'Ханты-Мансийск', 'Хасавюрт', 'Химки', 'Чайковский', 'Чебоксары', 
-      'Челябинск', 'Череповец', 'Черкесск', 'Чита', 'Шахты', 'Щелково', 'Элиста', 
+      'Абакан', 'Анапа', 'Ангарск', 'Армавир', 'Архангельск', 'Астрахань', 'Ачинск',
+      'Балаково', 'Балашиха', 'Барнаул', 'Батайск', 'Белгород', 'Белореченск', 'Бердск',
+      'Березники', 'Бийск', 'Благовещенск', 'Братск', 'Брянск', 'Бугульма', 'Бугуруслан',
+      'Бузулук', 'Великий Новгород', 'Владивосток', 'Владикавказ', 'Владимир', 'Волгоград',
+      'Волгодонск', 'Волжский', 'Вологда', 'Воронеж', 'Выборг', 'Глазов', 'Горно-Алтайск',
+      'Грозный', 'Губкин', 'Дербент', 'Дзержинск', 'Димитровград', 'Долгопрудный', 'Домодедово',
+      'Екатеринбург', 'Елабуга', 'Елец', 'Ессентуки', 'Железногорск', 'Жуковский', 'Зеленодольск',
+      'Златоуст', 'Иваново', 'Ижевск', 'Иркутск', 'Ишим', 'Йошкар-Ола', 'Казань', 'Калининград',
+      'Калуга', 'Каменск-Уральский', 'Каспийск', 'Кемерово', 'Керчь', 'Киров', 'Кисловодск',
+      'Клин', 'Ковров', 'Коломна', 'Комсомольск-на-Амуре', 'Копейск', 'Кострома', 'Краснодар',
+      'Красноярск', 'Курган', 'Курск', 'Кызыл', 'Липецк', 'Лобня', 'Лысьва', 'Магадан',
+      'Магнитогорск', 'Майкоп', 'Махачкала', 'Междуреченск', 'Миасс', 'Минеральные Воды',
+      'Москва', 'Мурманск', 'Муром', 'Мытищи', 'Набережные Челны', 'Назрань', 'Нальчик',
+      'Наро-Фоминск', 'Находка', 'Невинномысск', 'Нерюнгри', 'Нефтекамск', 'Нефтеюганск',
+      'Нижневартовск', 'Нижнекамск', 'Нижний Новгород', 'Нижний Тагил', 'Новокузнецк',
+      'Новомосковск', 'Новороссийск', 'Новосибирск', 'Новотроицк', 'Новоуральск', 'Новочеркасск',
+      'Новошахтинск', 'Новый Уренгой', 'Норильск', 'Обнинск', 'Одинцово', 'Омск', 'Орел',
+      'Оренбург', 'Орск', 'Пенза', 'Первоуральск', 'Пермь', 'Петрозаводск', 'Петропавловск-Камчатский',
+      'Подольск', 'Прокопьевск', 'Псков', 'Пятигорск', 'Раменское', 'Ревда', 'Реутов',
+      'Ростов-на-Дону', 'Рубцовск', 'Рыбинск', 'Рязань', 'Салават', 'Самара', 'Санкт-Петербург',
+      'Саранск', 'Сарапул', 'Саратов', 'Севастополь', 'Северодвинск', 'Серов', 'Серпухов',
+      'Симферополь', 'Смоленск', 'Сочи', 'Ставрополь', 'Старый Оскол', 'Стерлитамак',
+      'Сургут', 'Сызрань', 'Сыктывкар', 'Таганрог', 'Тамбов', 'Тверь', 'Тобольск',
+      'Тольятти', 'Томск', 'Тула', 'Тюмень', 'Улан-Уде', 'Ульяновск', 'Уссурийск',
+      'Уфа', 'Хабаровск', 'Ханты-Мансийск', 'Хасавюрт', 'Химки', 'Чайковский', 'Чебоксары',
+      'Челябинск', 'Череповец', 'Черкесск', 'Чита', 'Шахты', 'Щелково', 'Элиста',
       'Энгельс', 'Южно-Сахалинск', 'Якутск', 'Ярославль'
-    ].sort((a, b) => a.localeCompare(b, 'ru')); // Sort alphabetically in Russian locale
+    ].sort((a, b) => AscendingOrder((a, b) => a.localeCompare(b, 'ru'));
 
     const cityModal = document.getElementById('city-modal');
     const citySelect = document.getElementById('city-select');
@@ -540,8 +754,17 @@
       cityModal.classList.add('hidden');
     }
 
-    // Redirect on city selection
+    // Enable confirm button on city selection
     citySelect.addEventListener('change', () => {
+      if (citySelect.value) {
+        confirmCityBtn.disabled = false;
+      } else {
+        confirmCityBtn.disabled = true;
+      }
+    });
+
+    // Redirect on city confirmation
+    confirmCityBtn.addEventListener('click', () => {
       const selectedCity = citySelect.value;
       if (selectedCity) {
         localStorage.setItem('selectedCity', selectedCity);
@@ -550,6 +773,119 @@
         cityModal.classList.add('hidden');
       }
     });
+
+    // Event data from second code
+    const events = {
+      opera: [
+        { name: "Игрок", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Золотой петушок", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Сорочинская ярмарка", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Травиата", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" }
+      ],
+      theater: [
+        { name: "Самоубийца", image: "https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Тойбеле и ее демон", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Красавица и Чудовище", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop" }
+      ],
+      ballet: [
+        { name: "Жар-птица", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Шехеразада", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Лебединое озеро", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Анюта", image: "https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Журавлиная песнь", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" }
+      ],
+      standup: [
+        { name: "Женский стендап", image: "https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Стендап в Москве", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" }
+      ],
+      exhibition: [
+        { name: "Театр балета Эйфмана. Только любовь", image: "https://images.unsplash.com/photo-1513161455079-7f9122f92c88?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Путь к совершенству", image: "https://images.unsplash.com/photo-1514528593820-2d192a2b6952?q=80&w=2070&auto=format&fit=crop" },
+        { name: "Картинки с выставки", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=2070&auto=format&fit=crop" }
+      ]
+    };
+
+    // Update event list based on event type
+    function updateEventList() {
+      const eventType = document.getElementById('eventType').value;
+      const eventNameSelect = document.getElementById('eventName');
+      eventNameSelect.innerHTML = '<option value="">Выберите мероприятие</option>';
+
+      if (eventType && events[eventType]) {
+        events[eventType].forEach(event => {
+          const option = document.createElement('option');
+          option.value = event.name;
+          option.textContent = event.name;
+          eventNameSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Generate unique URL
+    function generateLink() {
+      const eventType = document.getElementById('eventType').value;
+      const eventName = document.getElementById('eventName').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const fullName = document.getElementById('fullName').value;
+      const row = document.getElementById('row').value;
+      const seat = document.getElementById('seat').value;
+      const price = document.getElementById('price').value;
+
+      if (!eventType || !eventName || !date || !time || !fullName || !row || !seat || !price) {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+      }
+
+      const selectedEvent = events[eventType].find(event => event.name === eventName);
+      const randomId = Math.floor(10000000 + Math.random() * 90000000); // Generate random 8-digit ID
+      const domain = window.location.origin;
+      const ticketData = {
+        eventName,
+        date: date.split('-').reverse().join('.'),
+        time,
+        fullName,
+        row,
+        seat,
+        price,
+        image: selectedEvent.image
+      };
+      const encodedData = encodeURIComponent(JSON.stringify(ticketData));
+      const link = `${domain}/?id=${randomId}&data=${encodedData}`;
+
+      const generatedLinkDiv = document.getElementById('generatedLink');
+      generatedLinkDiv.innerHTML = `Ваша ссылка: <a href="${link}" target="_blank" class="text-blue-400 underline">${link}</a>`;
+      generatedLinkDiv.classList.remove('hidden');
+    }
+
+    // Generate QR codes for events
+    function generateQRCodes() {
+      const qrCodes = [
+        { id: 'qr-theater-1', text: 'FAKE TICKET Самоубийца' },
+        { id: 'qr-theater-2', text: 'FAKE TICKET Тойбеле и ее демон' },
+        { id: 'qr-theater-3', text: 'FAKE TICKET Красавица и Чудовище' },
+        { id: 'qr-opera-1', text: 'FAKE TICKET Игрок' },
+        { id: 'qr-opera-2', text: 'FAKE TICKET Лебединое озеро' },
+        { id: 'qr-opera-3', text: 'FAKE TICKET Травиата' },
+        { id: 'qr-exhibition-1', text: 'FAKE TICKET Театр балета Эйфмана. Только любовь' },
+        { id: 'qr-exhibition-2', text: 'FAKE TICKET Путь к совершенству' },
+        { id: 'qr-exhibition-3', text: 'FAKE TICKET Картинки с выставки' }
+      ];
+
+      qrCodes.forEach(qr => {
+        new QRCode(document.getElementById(qr.id), {
+          text: qr.text,
+          width: 80,
+          height: 80,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      });
+    }
+
+    // Initialize QR codes on page load
+    window.onload = generateQRCodes;
 
     // Disable existing JavaScript interactions
     var gk_isXlsx = false;
@@ -590,7 +926,6 @@
     const chatInput = document.getElementById('chat-input');
     const fileInput = document.getElementById('file-input');
 
-    // Remove chat event listeners
     openChatBtn.removeEventListener('click', () => {});
     closeChatBtn.removeEventListener('click', () => {});
     chatInput.removeEventListener('keypress', () => {});
