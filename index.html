@@ -5,340 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>KARABAS</title>
+  <link rel="stylesheet" href="/./css/style.css?4">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: #1A1A1A;
-      font-family: Arial, sans-serif;
-      color: #f2f2f2;
-      font-size: 16px;
-    }
-    a {
-      color: #f2f2f2;
-      text-decoration: none;
-    }
-    .wrapper-def {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .container-def {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
-    .top-menu {
-      position: sticky;
-      top: 0;
-      background: #2D2D2D;
-      z-index: 100;
-      padding: 15px 0;
-    }
-    .top-menu__wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .top-menu__content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-    .top-menu__left {
-      display: flex;
-      align-items: center;
-    }
-    .top-menu__right {
-      display: flex;
-      align-items: center;
-    }
-    .top-menu__logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .top-menu__btn {
-      display: none;
-      cursor: pointer;
-    }
-    .links-def {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      margin: 0;
-      padding: 0;
-    }
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #2D2D2D;
-      z-index: 200;
-    }
-    .mob-menu.active {
-      display: block;
-    }
-    .mob-menu__wrap {
-      padding: 20px;
-    }
-    .mob-menu__content {
-      position: relative;
-      height: 100%;
-    }
-    .mob-menu__top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .mob-menu__btn {
-      cursor: pointer;
-    }
-    .mob-menu__links {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0;
-    }
-    .mob-menu__footer {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-    }
-    .sec-header {
-      padding: 40px 0;
-      position: relative;
-    }
-    .sec-header__title {
-      margin-bottom: 20px;
-    }
-    .img-def {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .img-def__dec {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      max-width: 800px;
-      z-index: 1;
-    }
-    .img-def__img {
-      width: 100%;
-      max-width: 600px;
-      position: relative;
-      z-index: 2;
-    }
-    .sec-header__title2 {
-      margin-top: 20px;
-    }
-    .sec-header__arr {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-    .sec-info {
-      padding: 40px 0;
-    }
-    .sec-info__top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-    .title-def {
-      margin: 0;
-    }
-    .title-def_red {
-      color: #E53E3E;
-    }
-    .title-def_sec {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .title-def_main {
-      font-size: 32px;
-      font-weight: bold;
-    }
-    .title-def_med {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .link-arr {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #f2f2f2;
-      text-decoration: none;
-    }
-    .link-arr__text {
-      font-size: 16px;
-    }
-    .sec-info__content {
-      display: grid;
-      gap: 40px;
-    }
-    .block-info {
-      background: #2D2D2D;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .block-info__title {
-      margin-bottom: 15px;
-    }
-    .block-info__content {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-    .block-info__img {
-      width: 60%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .block-info__body {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      flex: 1;
-    }
-    .block-info__arr {
-      display: flex;
-      align-items: center;
-      margin-left: 10px;
-    }
-    .block-info__arr-left {
-      margin-left: 0;
-      margin-right: 10px;
-    }
-    .btn-def {
-      display: inline-block;
-      background: #E53E3E;
-      color: #f2f2f2;
-      padding: 15px 30px;
-      border-radius: 5px;
-      text-decoration: none;
-      margin-top: 5px;
-    }
-    .btn-def span {
-      font-size: 18px;
-    }
-    .block-info.arr-right .block-info__content {
-      flex-direction: row;
-    }
-    .block-info.arr-left .block-info__content {
-      flex-direction: row-reverse;
-    }
-    .sec-footer {
-      margin-top: auto;
-      padding: 20px 0;
-      background: #2D2D2D;
-      text-align: center;
-    }
-    .sec-footer__text {
-      font-size: 14px;
-      color: #f2f2f2;
-      margin: 5px 0;
-    }
-    .sec-footer__bottom {
-      margin-top: 10px;
-    }
-    .sec-footer__bottom a {
-      color: #f2f2f2;
-      text-decoration: underline;
-      margin: 0 10px;
-    }
-    @media (max-width: 768px) {
-      .top-menu__btn {
-        display: block;
-      }
-      .top-menu__links {
-        display: none;
-      }
-      .block-info__content {
-        flex-direction: column;
-      }
-      .block-info.arr-right .block-info__content {
-        flex-direction: column;
-      }
-      .block-info.arr-left .block-info__content {
-        flex-direction: column;
-      }
-      .block-info__img {
-        width: 100%;
-      }
-      .block-info__arr {
-        margin: 10px 0;
-      }
-      .block-info__arr-left {
-        margin: 10px 0;
-      }
-      .btn-def {
-        padding: 12px 25px;
-      }
-      .btn-def span {
-        font-size: 16px;
-      }
-    }
-    #city-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    #city-modal-content {
-      background: #2D2D2D;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    #city-modal-content h2 {
-      color: #f2f2f2;
-      margin-bottom: 15px;
-    }
-    #city-input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #444;
-      border-radius: 5px;
-      background: #1A1A1A;
-      color: #f2f2f2;
-    }
-    #city-submit {
-      background: #E53E3E;
-      color: #f2f2f2;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #city-submit:hover {
-      background: #C53030;
-    }
+    /* Добавляем стили для чата */
     #chat-window {
       transition: transform 0.3s ease;
       transform: translateY(100%);
@@ -479,22 +148,13 @@
   </style>
 </head>
 <body>
-  <!-- Модальное окно для ввода города -->
-  <div id="city-modal">
-    <div id="city-modal-content">
-      <h2>Введите ваш город</h2>
-      <input type="text" id="city-input" placeholder="Например, Москва">
-      <button id="city-submit">Подтвердить</button>
-    </div>
-  </div>
-
   <div class="wrapper-def">
     <header class="top-menu">
       <div class="container-def">
         <div class="top-menu__wrap">
           <div class="top-menu__content">
             <div class="top-menu__left">
-              <a href="./" class="top-menu__logo logo-def">KARABAS</a>
+              <a href="/./" class="top-menu__logo logo-def">KARABAS</a>
             </div>
             <div class="top-menu__right">
               <nav class="top-menu__links">
@@ -514,7 +174,7 @@
       <div class="mob-menu__wrap">
         <div class="mob-menu__content">
           <div class="mob-menu__top">
-            <a href="./" class="mob-menu__logo logo-def">KARABAS</a>
+            <a href="/./" class="mob-menu__logo logo-def">KARABAS</a>
             <svg class="mob-menu__btn" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.9066 0.996043L1 11.004" stroke="#F2F2F2" stroke-width="2" />
               <path d="M14.9999 11.004L1.00003 0.996055" stroke="#F2F2F2" stroke-width="2" />
@@ -526,11 +186,13 @@
       <div class="mob-menu__footer sec-footer">
         <div class="sec-footer__wrap">
           <div class="sec-footer__content">
-            <div class="sec-footer__text sec-footer__text-1">© ООО "Городские Зрелищные Кассы", 2025</div>
+            <div class="sec-footer__text sec-footer__text-1">© ООО "Городские Зрелищные Кассы", 2023</div>
             <div class="sec-footer__text">Все права защищены.</div>
             <div class="sec-footer__text">Для лиц старше 18 лет.</div>
             <div class="sec-footer__bottom">
-              <a class="sec-footer__text" href="/refund.pdf">Возврат и условия</a>
+              <a class="sec-footer__text" href="#">Пользовательское соглашение</a>
+              <a class="sec-footer__text" href="#">Политика конфиденциальности</a>
+              <a class="sec-footer__text" href="#">Возврат и условия</a>
             </div>
           </div>
         </div>
@@ -542,7 +204,7 @@
           <div class="sec-header__content">
             <div class="sec-header__title title-def title-def_sec">ПРЕМЬЕРА</div>
             <div class="img-def">
-              <img class="img-def__dec" src="/dec.png" alt="">
+              <img class="img-def__dec" src="/./img/dec.png" alt="">
               <img class="img-def__img" src="" alt="">
             </div>
             <div class="sec-header__title2 title-def title-def_main"></div>
@@ -558,7 +220,7 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">НОВИНКИ ТЕАТРА</h2>
-            <a class="link-arr" onclick="return false;">
+            <a class="link-arr" href="/./theatre">
               <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
@@ -572,20 +234,20 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240530170344837.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530170344837.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=59"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
             <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Старший сын</h3>
               <div class="block-info__content">
-                <img class="block-info__img" src="/20240530172148690.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530172148690.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=62"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
@@ -598,10 +260,10 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240530165722715.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530165722715.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=58"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -614,7 +276,7 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">ОПЕРА И БАЛЕТ</h2>
-            <a class="link-arr" onclick="return false;">
+            <a class="link-arr" href="/./opera">
               <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
@@ -628,20 +290,20 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240530173340807.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530173340807.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=64"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
             <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Спартак</h3>
               <div class="block-info__content">
-                <img class="block-info__img" src="/20240530181609305.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530181609305.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=71"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
@@ -654,10 +316,10 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240530180935428.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240530180935428.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=69"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -670,7 +332,7 @@
         <div class="sec-info__wrap">
           <div class="sec-info__top">
             <h2 class="sec-info__title title-def title-def_red title-def_main">ВЫСТАВКИ</h2>
-            <a class="link-arr" onclick="return false;">
+            <a class="link-arr" href="/./exhibition">
               <span class="link-arr__text">КО ВСЕМ СОБЫТИЯМ</span>
               <svg class="link-arr__arr" width="41" height="46" viewBox="0 0 41 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.98438 44L37 24L1.98438 2" stroke="#F2F2F2" stroke-width="4" />
@@ -684,20 +346,20 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240531130212608.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240531130212608.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=81"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
             <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Lila</h3>
               <div class="block-info__content">
-                <img class="block-info__img" src="/20240531130531732.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240531130531732.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=82"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
@@ -710,10 +372,10 @@
                 <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <img class="block-info__img" src="/20240602112419843.jpg" alt="">
+                <img class="block-info__img" src="/./uploads/20240602112419843.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" href="/./buytickets?id=85"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
               </div>
             </div>
@@ -722,7 +384,7 @@
       </div>
     </section>
 
-    <footer class="sec-footer">
+    <footer class="sec-footer" style="margin-top: calc(100vh - 460px);">
       <div class="container-def">
         <div class="sec-footer__wrap">
           <div class="sec-footer__content">
@@ -730,7 +392,8 @@
 Все права защищены.<br>
 Для лиц старше 18 лет.</div>
             <div class="sec-footer__bottom">
-              <a class="sec-footer__text" href="/refund.pdf">Возврат и условия</a>
+              <a class="sec-footer__text" href="/./user.pdf">Пользовательское соглашение</a>
+              <a class="sec-footer__text" href="/./refund.pdf">Возврат и условия</a>
             </div>
           </div>
         </div>
@@ -767,8 +430,9 @@
     </svg>
   </button>
 
-  <script src="/main.js"></script>
+  <script src="/./js/main.js?1"></script>
   <script>
+    // Алгоритм работы чата
     function generateUUID() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -1005,76 +669,6 @@
     }
 
     setInterval(checkForMessages, 3000);
-
-    // Логика для модального окна и генерации ссылки с переводом
-    const cityModal = document.getElementById('city-modal');
-    const cityInput = document.getElementById('city-input');
-    const citySubmit = document.getElementById('city-submit');
-
-    // Проверяем, есть ли параметр 'c' в URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const cityParam = urlParams.get('c');
-
-    if (!cityParam) {
-      // Если параметра нет, показываем модальное окно
-      cityModal.style.display = 'flex';
-    } else {
-      // Если параметр есть, скрываем модальное окно и показываем контент
-      cityModal.style.display = 'none';
-    }
-
-    // Функция для определения языка текста
-    function detectLanguage(text) {
-      const cyrillicPattern = /[а-яА-Я]/;
-      if (cyrillicPattern.test(text)) {
-        return 'ru'; // Русский
-      }
-      return 'en'; // Предполагаем, что остальные языки не требуют перевода, или можно добавить больше условий
-    }
-
-    // Функция для перевода текста с использованием публичного API (MyMemory Translation API)
-    async function translateCity(city, sourceLang, targetLang) {
-      try {
-        const response = await fetch(
-          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(city)}&langpair=${sourceLang}|${targetLang}`
-        );
-        const data = await response.json();
-        if (data.responseStatus === 200 && data.matches && data.matches.length > 0) {
-          return data.matches[0].translation;
-        } else {
-          console.error('Ошибка перевода:', data);
-          return city; // Возвращаем оригинальный текст в случае ошибки
-        }
-      } catch (error) {
-        console.error('Ошибка при запросе перевода:', error);
-        return city; // Возвращаем оригинальный текст в случае ошибки
-      }
-    }
-
-    citySubmit.addEventListener('click', async () => {
-      let city = cityInput.value.trim();
-      if (city) {
-        // Определяем язык введённого города
-        const sourceLang = detectLanguage(city);
-        
-        // Если язык русский, переводим на английский
-        if (sourceLang === 'ru') {
-          city = await translateCity(city, 'ru', 'en');
-        }
-        
-        // Приводим к нижнему регистру и формируем URL
-        city = city.toLowerCase();
-        const newUrl = `${window.location.pathname}?c=${city}`;
-        window.location.href = newUrl;
-      }
-    });
-
-    // Добавляем возможность отправки по нажатию Enter
-    cityInput.addEventListener('keypress', async (e) => {
-      if (e.key === 'Enter') {
-        citySubmit.click();
-      }
-    });
 
     // Логика для мобильного меню
     const menuBtn = document.querySelector('.top-menu__btn');
