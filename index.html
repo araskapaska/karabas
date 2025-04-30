@@ -205,8 +205,9 @@
       align-items: center;
     }
     .block-info__img {
-      width: 200px;
-      height: 150px;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
       object-fit: cover;
       border-radius: 8px;
     }
@@ -214,7 +215,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 10px;
+      gap: 5px;
       flex: 1;
     }
     .block-info__arr {
@@ -222,26 +223,26 @@
       align-items: center;
       margin-left: 10px;
     }
-    .block-info_2 .block-info__arr {
+    .block-info__arr-left {
       margin-left: 0;
       margin-right: 10px;
-    }
-    .old-info {
-      font-size: 14px;
-      color: #888;
     }
     .btn-def {
       display: inline-block;
       background: #E53E3E;
       color: #f2f2f2;
-      padding: 10px 20px;
+      padding: 15px 30px;
       border-radius: 5px;
       text-decoration: none;
+      margin-top: 5px;
     }
     .btn-def span {
-      font-size: 16px;
+      font-size: 18px;
     }
-    .block-info_2 .block-info__content {
+    .block-info.arr-right .block-info__content {
+      flex-direction: row;
+    }
+    .block-info.arr-left .block-info__content {
       flex-direction: row-reverse;
     }
     .sec-footer {
@@ -273,18 +274,27 @@
       .block-info__content {
         flex-direction: column;
       }
-      .block-info_2 .block-info__content {
+      .block-info.arr-right .block-info__content {
+        flex-direction: column;
+      }
+      .block-info.arr-left .block-info__content {
         flex-direction: column;
       }
       .block-info__img {
         width: 100%;
-        height: auto;
+        max-width: 100%;
       }
       .block-info__arr {
         margin: 10px 0;
       }
-      .block-info_2 .block-info__arr {
+      .block-info__arr-left {
         margin: 10px 0;
+      }
+      .btn-def {
+        padding: 12px 25px;
+      }
+      .btn-def span {
+        font-size: 16px;
       }
     }
     #city-modal {
@@ -558,46 +568,43 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Раневская «Сквозь смех и слезы»</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240530170344837.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span ana></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
-            <div class="block-info block-info_2 sec-info__content-el">
+            <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Старший сын</h3>
               <div class="block-info__content">
+                <img class="block-info__img" src="/20240530172148690.jpg" alt="">
+                <div class="block-info__body">
+                  <div class="title-small block-info__title2"></div>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <img class="block-info__img" src="/20240530172148690.jpg" alt="">
               </div>
             </div>
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Анна Каренина</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240530165722715.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
                   <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
           </div>
@@ -617,46 +624,43 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Князь Игорь</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240530173340807.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
                   <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
-            <div class="block-info block-info_2 sec-info__content-el">
+            <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Спартак</h3>
               <div class="block-info__content">
+                <img class="block-info__img" src="/20240530181609305.jpg" alt="">
+                <div class="block-info__body">
+                  <div class="title-small block-info__title2"></div>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <img class="block-info__img" src="/20240530181609305.jpg" alt="">
               </div>
             </div>
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Золушка</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240530180935428.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
                   <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
           </div>
@@ -676,46 +680,43 @@
             </a>
           </div>
           <div class="sec-info__content">
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Город-сад: мультивселенные</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240531130212608.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
                   <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
-            <div class="block-info block-info_2 sec-info__content-el">
+            <div class="block-info arr-right sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Lila</h3>
               <div class="block-info__content">
+                <img class="block-info__img" src="/20240531130531732.jpg" alt="">
+                <div class="block-info__body">
+                  <div class="title-small block-info__title2"></div>
+                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
+                </div>
                 <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
                 </svg>
-                <div class="block-info__body">
-                  <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
-                  <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
-                </div>
-                <img class="block-info__img" src="/20240531130531732.jpg" alt="">
               </div>
             </div>
-            <div class="block-info sec-info__content-el">
+            <div class="block-info arr-left sec-info__content-el">
               <h3 class="block-info__title title-def title-def_med">Между землей и небом</h3>
               <div class="block-info__content">
+                <svg class="block-info__arr block-info__arr-left" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
+                </svg>
                 <img class="block-info__img" src="/20240602112419843.jpg" alt="">
                 <div class="block-info__body">
                   <div class="title-small block-info__title2"></div>
-                  <div class="old-info">18+</div>
                   <a class="btn-def block-info__btn" onclick="return false;"><span>КУПИТЬ БИЛЕТЫ</span></a>
                 </div>
-                <svg class="block-info__arr" width="46" height="281" viewBox="0 0 46 281" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M23 0V277M23 277L2 243M23 277L44 243" stroke="#F2F2F2" stroke-width="4" />
-                </svg>
               </div>
             </div>
           </div>
